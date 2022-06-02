@@ -1,2 +1,5 @@
 # InstaChat
-Open Source Chat &amp; Social Networking App like Facebook.
+Snap, Chat, Meet and Stream in one place.
+
+# Tools
+- Jetpack Compose

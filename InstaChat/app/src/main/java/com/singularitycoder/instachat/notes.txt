@@ -1,0 +1,200 @@
+ fun getNetworkName(): kotlin.String? {
+        val manager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+        if (manager.isWifiEnabled.not()) return null
+        val wifiInfo = manager.connectionInfo ?: return null
+        val state = WifiInfo.getDetailedStateOf(wifiInfo.supplicantState)
+        return if (state == DetailedState.CONNECTED || state == DetailedState.OBTAINING_IPADDR) {
+            var ssid = wifiInfo.ssid
+            if (ssid == null) ssid = ""
+            ssid = ssid.replace("^\"|\"$".toRegex(), "")
+            if (ssid == "<unknown ssid>") {
+                ssid = "Unknown Network"
+            }
+            ssid
+        } else null
+    }
+
+    fun getIp(context: Application): kotlin.String? {
+        try {
+            val wifiManager = context.getSystemService(WIFI_SERVICE) as? WifiManager ?: return null
+            if (wifiManager.isWifiEnabled.not()) {
+                wifiManager.isWifiEnabled = true
+            }
+            val wifiInfo = wifiManager.connectionInfo
+            val ipAddress = wifiInfo.ipAddress
+            return intToIp(ipAddress)
+        } catch (e: java.lang.Exception) {
+        }
+        return null
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getMacAddress(context: Application): kotlin.String? {
+        val wifiManager = context.getSystemService(WIFI_SERVICE) as? WifiManager ?: return null
+        val wifiInfo = wifiManager.connectionInfo ?: return null
+        return wifiInfo.macAddress
+    }
+
+    /**
+     * Start to connect to a specific wifi network
+     */
+    private fun connectToSpecificNetwork() {
+        val wifi = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        val wifiInfo = wifi.connectionInfo
+        if (networkInfo!!.isConnected && wifiInfo.ssid.replace("\"", "") == getWifiSSID()) {
+            return
+        } else {
+            wifi.disconnect()
+        }
+        progressDialog = ProgressDialog.show(getContext(), getContext().getString(R.string.connecting), String.format(getContext().getString(R.string.connecting_to_wifi), getWifiSSID()))
+        taskHandler = worker.schedule(TimeoutTask(), getSecondsTimeout(), TimeUnit.SECONDS)
+        scanReceiver = ScanReceiver()
+        getContext().registerReceiver(scanReceiver, IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+        wifi.startScan()
+    }
+
+
+    private fun checkWifiOnAndConnected(): Boolean {
+        val wifiMgr = applicationContext.getSystemService(WIFI_SERVICE) as? WifiManager ?: return false
+        return if (wifiMgr.isWifiEnabled) { // Wi-Fi adapter is ON
+            val wifiInfo = wifiMgr.connectionInfo
+            wifiInfo.networkId != -1
+        } else {
+            false // Wi-Fi adapter is OFF
+        }
+    }
+
+
+    /**
+     * result[0] is self ip,result[1] is host ip,result[2] is isWifiEnable,true or false.
+     */
+    fun getWifiHostAndSelfIP(context: Context): ArrayList<kotlin.String>? {
+        val wifiManager = context.getSystemService(WIFI_SERVICE) as WifiManager
+        val isWifiEnable: kotlin.String
+        isWifiEnable = if (!wifiManager.isWifiEnabled) {
+            "false"
+        } else "true"
+        val result: ArrayList<kotlin.String> = ArrayList()
+        val wifiInfo = wifiManager.connectionInfo
+        val IPAddress: kotlin.String = intToIp(wifiInfo.ipAddress)
+        result.add(IPAddress)
+        val dhcpinfo = wifiManager.dhcpInfo
+        val serverAddress: kotlin.String = intToIp(dhcpinfo.serverAddress)
+        result.add(serverAddress)
+        result.add(isWifiEnable)
+        return result
+    }
+
+    /**
+     * wifi
+     *
+     * @param mContext
+     * @return
+     */
+    private fun getDetailsWifiInfo(mContext: Context, signalBean: SignalBean) {
+        try {
+            val mWifiInfo: WifiInfo = getWifiInfo(mContext)
+            val ip = mWifiInfo.ipAddress
+            val strIp = "" + (ip and 0xFF) + "." + (ip shr 8 and 0xFF) + "." + (ip shr 16 and 0xFF) + "." + (ip shr 24 and 0xFF)
+            signalBean.setBssid(mWifiInfo.bssid)
+            signalBean.setSsid(mWifiInfo.ssid.replace("\"", ""))
+            signalBean.setnIpAddress(strIp)
+            signalBean.setMacAddress(getMac(mContext))
+            signalBean.setNetworkId(mWifiInfo.networkId)
+            signalBean.setLinkSpeed(mWifiInfo.linkSpeed.toString() + "Mbps")
+            val rssi = mWifiInfo.rssi
+            signalBean.setRssi(rssi)
+            signalBean.setLevel(calculateSignalLevel(rssi))
+            isWifiProxy(mContext, signalBean)
+            signalBean.setSupplicantState(mWifiInfo.supplicantState.name)
+            signalBean.setnIpAddressIpv6(getNetIP())
+        } catch (e: java.lang.Exception) {
+            Log.i(TAG, e.toString())
+        }
+    }
+
+
+    private fun getIpAddress() {
+        val address: InetAddress = socket.getInetAddress()
+        val network: NetworkInterface = NetworkInterface.getByInetAddress(address)
+        val mac: ByteArray = network.hardwareAddress
+
+        try {
+            val IP_CMD = "ip neighbor"
+            val ipProc: Process = Runtime.getRuntime().exec(IP_CMD)
+            ipProc.waitFor()
+            if (ipProc.exitValue() != 0) {
+                throw Exception("Unable to access ARP entries");
+            }
+
+            val reader = BufferedReader(InputStreamReader(ipProc.inputStream, "UTF-8"))
+            var line = ""
+            while ((reader.readLine().also { line = it }) != null) {
+                val neighborLine = line.split("\\s+")
+
+                // We don't have a validated ARP entry for this case.
+                if (neighborLine.size <= 4) {
+                    continue
+                }
+
+                val ipaddr: kotlin.String = neighborLine[0]
+                val addr = InetAddress.getByName(ipaddr)
+                if (addr.isLinkLocalAddress || addr.isLoopbackAddress) {
+                    continue
+                }
+
+                val macAddress = neighborLine[4]
+            }
+        } catch (e: java.lang.Exception) {
+            println(e)
+        }
+    }
+
+    private fun getWifiNetworks() {
+        val wifiConfig = WifiConfiguration()
+        wifiConfig.SSID = String.format("\"%s\"", ssid)
+        wifiConfig.preSharedKey = String.format("\"%s\"", key)
+
+        val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+        //remember id
+        val netId = wifiManager.addNetwork(wifiConfig)
+        wifiManager.disconnect()
+        wifiManager.enableNetwork(netId, true)
+        wifiManager.reconnect()
+    }
+
+    private fun getWifiNetworks2() {
+        val networkSSID = "test"
+        val networkPass = "pass"
+
+        val conf = WifiConfiguration()
+        conf.SSID = "\"" + networkSSID + "\"" // Please note the quotes. String should contain ssid in quotes
+
+        // Then, for WEP network you need to do this:
+        conf.wepKeys[0] = "\"" + networkPass + "\"";
+        conf.wepTxKeyIndex = 0;
+        conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+        conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+
+        // For WPA network you need to add passphrase like this:
+        conf.preSharedKey = "\"" + networkPass + "\""
+
+        // For Open network you need to do this:
+        conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE)
+
+        // Then, you need to add it to Android wifi manager settings:
+        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        wifiManager.addNetwork(conf)
+
+        val list = wifiManager.configuredNetworks
+        for (i in list) {
+            if (i.SSID != null && i.SSID == "\"" + networkSSID + "\"") {
+                wifiManager.disconnect()
+                wifiManager.enableNetwork(i.networkId, true)
+                wifiManager.reconnect()
+                break
+            }
+        }
+    }

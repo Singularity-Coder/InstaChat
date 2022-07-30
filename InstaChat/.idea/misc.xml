@@ -5,12 +5,18 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.111" />
         <entry key="app/src/main/res/drawable/ic_placeholder.xml" value="0.111" />
+        <entry key="app/src/main/res/drawable/ic_play_arrow_fill0_wght400_grad0_opsz48.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_round_arrow_back_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_round_person_24.xml" value="0.111" />
         <entry key="app/src/main/res/drawable/ic_round_person_add_24.xml" value="0.111" />
         <entry key="app/src/main/res/drawable/ic_round_play_arrow_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/play_arrow-24px.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/play_arrow_24px.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/play_arrow_40px.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_feed_main.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/layout_media_control.xml" value="0.335" />
         <entry key="app/src/main/res/layout/list_item_chat.xml" value="0.19610507246376813" />
       </map>

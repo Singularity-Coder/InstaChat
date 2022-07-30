@@ -37,7 +37,7 @@
                 android:layout_marginEnd="16dp"
                 android:drawablePadding="8dp"
                 android:maxLines="3"
-                android:text="Hey, how are you, I am fine, Thank you! Let's go for tututa movie this saturday. I will bring some stuff to the movie"
+                android:text="@string/dummy_text_1"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="@color/title_color"

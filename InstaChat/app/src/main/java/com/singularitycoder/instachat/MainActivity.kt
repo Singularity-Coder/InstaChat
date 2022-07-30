@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         override fun getItemCount(): Int = 2
         override fun createFragment(position: Int): Fragment = when (position) {
             0 -> ChatFragment.newInstance()
-            else -> FeedFragment.newInstance()
+            else -> FeedMainFragment.newInstance()
         }
     }
 }

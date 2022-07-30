@@ -9,6 +9,11 @@ import com.singularitycoder.instachat.databinding.FragmentFeedBinding
 
 class FeedFragment : Fragment() {
 
+    companion object {
+        @JvmStatic
+        fun newInstance() = FeedFragment()
+    }
+
     private lateinit var binding: FragmentFeedBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -23,7 +28,7 @@ class FeedFragment : Fragment() {
 
     private fun FragmentFeedBinding.setupUI() {
         layoutBack.ibIcon.setImageResource(R.drawable.ic_round_arrow_back_24)
-        layoutAddMedia.ibIcon.setImageResource(R.drawable.ic_round_play_arrow_24)
+        layoutPlayPause.ibIcon.setImageResource(R.drawable.ic_round_play_arrow_24)
         layoutLike.ibIcon.setImageResource(R.drawable.ic_round_favorite_border_24)
         layoutAddMedia.ibIcon.setImageResource(R.drawable.ic_round_add_24)
     }

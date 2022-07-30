@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableEnd="@drawable/ic_baseline_keyboard_double_arrow_right_24"
-        android:drawablePadding="8dp"
+        android:drawablePadding="4dp"
         android:drawableTint="@color/purple_500"
         android:maxLines="1"
         android:paddingStart="16dp"

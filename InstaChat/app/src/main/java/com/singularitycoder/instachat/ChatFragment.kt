@@ -11,6 +11,11 @@ import com.singularitycoder.instachat.databinding.FragmentChatBinding
 
 class ChatFragment : Fragment() {
 
+    companion object {
+        @JvmStatic
+        fun newInstance() = ChatFragment()
+    }
+
     private lateinit var binding: FragmentChatBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

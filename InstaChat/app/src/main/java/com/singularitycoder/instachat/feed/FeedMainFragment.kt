@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.singularitycoder.instachat.R
 import com.singularitycoder.instachat.databinding.FragmentFeedMainBinding
+import com.singularitycoder.instachat.helpers.rawPath
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,9 +40,11 @@ class FeedMainFragment : Fragment() {
     private fun FragmentFeedMainBinding.setupUI() {
         layoutLike.ibIcon.setImageResource(R.drawable.ic_round_favorite_border_24)
         layoutAddMedia.ibIcon.setImageResource(R.drawable.ic_round_add_24)
+        cardBack.setOnClickListener {
+        }
         feedList.apply {
-            add(Feed(0, "", getString(R.string.dummy_text_1)))
-            add(Feed(1, "", getString(R.string.dummy_text_1)))
+            add(Feed(0, requireContext().rawPath(R.raw.pr_download_islands_20_202119), getString(R.string.dummy_text_1)))
+            add(Feed(1, requireContext().rawPath(R.raw.pr_download_sea_20_2013704), getString(R.string.dummy_text_1)))
             add(Feed(2, "", getString(R.string.dummy_text_1)))
             add(Feed(3, "", getString(R.string.dummy_text_1)))
             add(Feed(4, "", getString(R.string.dummy_text_1)))

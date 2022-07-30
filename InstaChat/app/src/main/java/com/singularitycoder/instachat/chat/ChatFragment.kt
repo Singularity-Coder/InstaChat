@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.singularitycoder.instachat.R
 import com.singularitycoder.instachat.databinding.FragmentChatBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +51,8 @@ class ChatFragment : Fragment() {
         (rvChats.adapter as ChatsAdapter).apply {
             this.chatsList = this@ChatFragment.chatsList
             notifyDataSetChanged()
+        }
+        cardFeed.setOnClickListener {
         }
     }
 }

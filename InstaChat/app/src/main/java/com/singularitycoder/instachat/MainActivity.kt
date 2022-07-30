@@ -6,11 +6,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.singularitycoder.instachat.chat.ChatFragment
 import com.singularitycoder.instachat.databinding.ActivityMainBinding
+import com.singularitycoder.instachat.feed.FeedMainFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 // View pager main horizontal
 // View Pager feed vertical
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

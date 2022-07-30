@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatFragment">
+    tools:context=".chat.ChatFragment">
 
     <TextView
         android:id="@+id/tv_app_name"
@@ -18,27 +18,51 @@
         android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
         android:textColor="@color/title_color"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/tv_feed"
+        app:layout_constraintEnd_toStartOf="@+id/card_feed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_feed"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_feed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_baseline_keyboard_double_arrow_right_24"
-        android:drawablePadding="4dp"
-        android:drawableTint="@color/purple_500"
-        android:maxLines="1"
-        android:paddingStart="16dp"
-        android:paddingTop="24dp"
-        android:paddingEnd="16dp"
-        android:text="feed"
-        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        android:textColor="@color/purple_500"
-        android:textStyle="bold"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/purple_50"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_app_name"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="8dp"
+                android:text="feed"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@color/purple_500"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_app_name"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:src="@drawable/ic_round_keyboard_double_arrow_right_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:tint="@color/purple_500" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_search"
@@ -73,7 +97,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_contacts"
+        android:id="@+id/rv_chats"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"

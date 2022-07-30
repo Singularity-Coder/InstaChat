@@ -1,4 +1,4 @@
-package com.singularitycoder.instachat
+package com.singularitycoder.instachat.feed
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.singularitycoder.instachat.R
 import com.singularitycoder.instachat.databinding.FragmentFeedMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FeedMainFragment : Fragment() {
 
     companion object {
@@ -34,6 +37,8 @@ class FeedMainFragment : Fragment() {
     }
 
     private fun FragmentFeedMainBinding.setupUI() {
+        layoutLike.ibIcon.setImageResource(R.drawable.ic_round_favorite_border_24)
+        layoutAddMedia.ibIcon.setImageResource(R.drawable.ic_round_add_24)
         feedList.apply {
             add(Feed(0, "", getString(R.string.dummy_text_1)))
             add(Feed(1, "", getString(R.string.dummy_text_1)))

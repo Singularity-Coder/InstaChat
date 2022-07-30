@@ -1,12 +1,15 @@
-package com.singularitycoder.instachat
+package com.singularitycoder.instachat.feed
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.singularitycoder.instachat.R
 import com.singularitycoder.instachat.databinding.FragmentFeedBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FeedFragment : Fragment() {
 
     companion object {
@@ -36,10 +39,7 @@ class FeedFragment : Fragment() {
     }
 
     private fun FragmentFeedBinding.setupUI() {
-        layoutBack.ibIcon.setImageResource(R.drawable.ic_round_arrow_back_24)
-        layoutPlayPause.ibIcon.setImageResource(R.drawable.play_arrow_40px)
-        layoutLike.ibIcon.setImageResource(R.drawable.ic_round_favorite_border_24)
-        layoutAddMedia.ibIcon.setImageResource(R.drawable.ic_round_add_24)
+        tvMediaDescription.text = feed?.mediaDescription
     }
 }
 

@@ -1,4 +1,4 @@
-package com.singularitycoder.instachat
+package com.singularitycoder.instachat.feed
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FeedFragment">
+    tools:context=".feed.FeedFragment">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/videoView"
@@ -13,89 +13,35 @@
         android:background="@color/black"
         android:visibility="visible" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_search"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:alpha="0.5"
+        android:background="@drawable/ic_black_fade_gradient"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_media_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="80dp"
         android:layout_marginBottom="16dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/iv_swipe_up">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_media_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:drawablePadding="8dp"
-                android:maxLines="3"
-                android:text="@string/dummy_text_1"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="@color/title_color"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_media_description">
-
-                <include
-                    android:id="@+id/layout_back"
-                    layout="@layout/layout_media_control"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@+id/layout_play_pause"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <include
-                    android:id="@+id/layout_play_pause"
-                    layout="@layout/layout_media_control"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@+id/layout_like"
-                    app:layout_constraintStart_toEndOf="@+id/layout_back" />
-
-                <include
-                    android:id="@+id/layout_like"
-                    layout="@layout/layout_media_control"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@+id/layout_add_media"
-                    app:layout_constraintStart_toEndOf="@+id/layout_play_pause" />
-
-                <include
-                    android:id="@+id/layout_add_media"
-                    layout="@layout/layout_media_control"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/layout_like" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+        android:drawablePadding="8dp"
+        android:maxLines="3"
+        android:text="@string/dummy_text_1"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/iv_swipe_up" />
 
     <ImageView
         android:id="@+id/iv_swipe_up"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_margin="4dp"
         android:background="@null"
         android:elevation="8dp"
-        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+        android:src="@drawable/ic_round_keyboard_arrow_down_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

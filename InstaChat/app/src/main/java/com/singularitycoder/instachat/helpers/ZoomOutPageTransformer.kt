@@ -1,4 +1,4 @@
-package com.singularitycoder.instachat
+package com.singularitycoder.instachat.helpers
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

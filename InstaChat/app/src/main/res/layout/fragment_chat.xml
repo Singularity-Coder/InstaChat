@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/tv_app_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:paddingStart="16dp"
@@ -18,20 +18,22 @@
         android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
         android:textColor="@color/title_color"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/tv_feed"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_feed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_baseline_keyboard_double_arrow_right_24"
+        android:drawablePadding="8dp"
+        android:drawableTint="@color/purple_500"
         android:maxLines="1"
         android:paddingStart="16dp"
         android:paddingTop="24dp"
         android:paddingEnd="16dp"
         android:text="feed"
-        android:drawablePadding="8dp"
-        android:drawableTint="@color/purple_500"
-        android:drawableEnd="@drawable/ic_baseline_keyboard_double_arrow_right_24"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         android:textColor="@color/purple_500"
         android:textStyle="bold"

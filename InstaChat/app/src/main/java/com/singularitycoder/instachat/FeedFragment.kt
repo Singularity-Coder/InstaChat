@@ -15,4 +15,16 @@ class FeedFragment : Fragment() {
         binding = FragmentFeedBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.setupUI()
+    }
+
+    private fun FragmentFeedBinding.setupUI() {
+        layoutBack.ibIcon.setImageResource(R.drawable.ic_round_arrow_back_24)
+        layoutAddMedia.ibIcon.setImageResource(R.drawable.ic_round_play_arrow_24)
+        layoutLike.ibIcon.setImageResource(R.drawable.ic_round_favorite_border_24)
+        layoutAddMedia.ibIcon.setImageResource(R.drawable.ic_round_add_24)
+    }
 }

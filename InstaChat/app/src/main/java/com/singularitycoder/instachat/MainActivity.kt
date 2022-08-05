@@ -6,18 +6,33 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.singularitycoder.instachat.chat.ChatFragment
 import com.singularitycoder.instachat.databinding.ActivityMainBinding
 import com.singularitycoder.instachat.feed.FeedMainFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-// View pager main horizontal
-// View Pager feed vertical
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val viewPager2PageChangeListener = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+            println("viewpager2: onPageScrollStateChanged")
+        }
+
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            println("viewpager2: onPageSelected")
+        }
+
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            println("viewpager2: onPageScrolled")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +41,16 @@ class MainActivity : AppCompatActivity() {
         setUpViewPager()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.viewpagerMain.unregisterOnPageChangeCallback(viewPager2PageChangeListener)
+    }
+
     private fun setUpViewPager() {
-        binding.viewpagerMain.adapter = MainViewPagerAdapter(fragmentManager = supportFragmentManager, lifecycle = lifecycle)
+        binding.viewpagerMain.apply {
+            adapter = MainViewPagerAdapter(fragmentManager = supportFragmentManager, lifecycle = lifecycle)
+            registerOnPageChangeCallback(viewPager2PageChangeListener)
+        }
     }
 
     inner class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {

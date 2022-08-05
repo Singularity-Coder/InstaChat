@@ -35,6 +35,11 @@ class ChatFragment : Fragment() {
         binding.setupUI()
     }
 
+    override fun onResume() {
+        super.onResume()
+        println("This triggers everytime we switch the screen")
+    }
+
     private fun FragmentChatBinding.setupUI() {
         rvChats.apply {
             layoutManager = LinearLayoutManager(context)

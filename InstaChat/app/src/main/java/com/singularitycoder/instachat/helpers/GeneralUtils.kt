@@ -1,18 +1,28 @@
 package com.singularitycoder.instachat.helpers
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Point
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.view.View
+import android.view.Window
+import android.view.WindowInsets
+import android.view.WindowManager
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.singularitycoder.instachat.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.Main
@@ -22,6 +32,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 const val DB_CONTACT = "db_contact"
 const val TABLE_CONTACT = "table_contact"
@@ -153,6 +164,77 @@ fun Context.rawPath(@RawRes rawFile: Int): String {
 //    val rawId = resources.getIdentifier(file_name_without_extension, "raw", packageName)
     return "android.resource://$packageName/$rawFile"
 }
+
+fun Activity.setStatusBarColorTo(@ColorRes color: Int) {
+    window.also {
+        it.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        it.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        it.statusBarColor = ContextCompat.getColor(this, color)
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        it.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+    }
+}
+
+/**
+ * Fragment container need: android:fitsSystemWindows="true"
+ * Programmatically: window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+ * To change tint of status icons. Set this in theme: <item name="android:windowLightStatusBar">true</item>
+ * */
+// https://stackoverflow.com/questions/29311078/android-completely-transparent-status-bar
+// https://stackoverflow.com/questions/30075827/android-statusbar-icons-color
+// https://stackoverflow.com/questions/22192291/how-to-change-the-status-bar-color-in-android
+fun AppCompatActivity.setTransparentStatusBar() {
+    window.setFlags(
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+    )
+}
+
+// // Not working
+fun AppCompatActivity.setStatusBarTint(isDark: Boolean = false) {
+    if (isDark) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+        window.statusBarColor = color(R.color.light_gray)
+    } else {
+        window.statusBarColor = color(R.color.white)
+    }
+}
+
+// Not working
+fun AppCompatActivity.setNavBarTint(@ColorRes color: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+    } else {
+        window.navigationBarColor = color(color)
+    }
+}
+
+// https://stackoverflow.com/questions/2868047/fullscreen-activity-in-android
+fun AppCompatActivity.goFullScreen(isStatusBarVisible: Boolean = false) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (isStatusBarVisible) {
+            window.insetsController?.show(WindowInsets.Type.statusBars())
+        } else {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        }
+    } else {
+        if (isStatusBarVisible) {
+            window.decorView.systemUiVisibility = View.STATUS_BAR_VISIBLE
+        } else {
+            @Suppress("DEPRECATION")
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+    }
+}
+
+fun Context.color(@ColorRes colorRes: Int) = ContextCompat.getColor(this, colorRes)
+
+fun Context.drawable(@DrawableRes drawableRes: Int): Drawable? = ContextCompat.getDrawable(this, drawableRes)
 
 enum class DateType(val value: String) {
     dd_MMM_yyyy(value = "dd MMM yyyy"),

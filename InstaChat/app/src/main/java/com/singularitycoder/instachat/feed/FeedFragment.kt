@@ -43,6 +43,11 @@ class FeedFragment : Fragment() {
         setupExoPlayer()
     }
 
+    override fun onResume() {
+        super.onResume()
+        println("This triggers only once and every time we swipe to see new feed")
+    }
+
     private fun FragmentFeedBinding.setupUI() {
         tvMediaDescription.text = feed?.mediaDescription
         videoView.setOnClickListener {

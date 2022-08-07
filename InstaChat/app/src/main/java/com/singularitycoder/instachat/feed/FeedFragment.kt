@@ -12,6 +12,8 @@ import com.google.android.exoplayer2.Player
 import com.singularitycoder.instachat.databinding.FragmentFeedBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+// Add Image / Video with text
+
 @AndroidEntryPoint
 class FeedFragment : Fragment() {
 

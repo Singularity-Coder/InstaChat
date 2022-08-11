@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Connect Me</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Ping Me</string>
     <string name="dummy_text_1">Hey, how are you, I am fine, Thank you! Let\'s go for tututa movie this saturday. I will bring some stuff to the movie</string>
 </resources>

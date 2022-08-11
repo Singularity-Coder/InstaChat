@@ -12,7 +12,8 @@ import com.singularitycoder.instachat.databinding.FragmentChatBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 // Get list of nearby wifi networks or get nearby socket clients/servers
-
+// You cannot add a chat as u can only chat with the people the wifi network discovers
+// Profile
 @AndroidEntryPoint
 class ChatFragment : Fragment() {
 

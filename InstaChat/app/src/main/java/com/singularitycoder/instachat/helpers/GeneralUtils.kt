@@ -15,11 +15,14 @@ import android.view.View
 import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.singularitycoder.instachat.R
@@ -235,6 +238,64 @@ fun AppCompatActivity.goFullScreen(isStatusBarVisible: Boolean = false) {
 fun Context.color(@ColorRes colorRes: Int) = ContextCompat.getColor(this, colorRes)
 
 fun Context.drawable(@DrawableRes drawableRes: Int): Drawable? = ContextCompat.getDrawable(this, drawableRes)
+
+// https://stackoverflow.com/questions/37104960/bottomsheetdialog-with-transparent-background
+fun BottomSheetDialogFragment.setTransparentBackground() {
+    dialog?.apply {
+        // window?.setDimAmount(0.2f) // Set dim amount here
+        setOnShowListener {
+            val bottomSheet = findViewById<View?>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.setBackgroundResource(android.R.color.transparent)
+        }
+    }
+}
+
+fun TextView.showHideIcon(
+    context: Context,
+    showTick: Boolean,
+    @DrawableRes leftIcon: Int = android.R.drawable.ic_delete,
+    @DrawableRes topIcon: Int = android.R.drawable.ic_delete,
+    @DrawableRes rightIcon: Int = android.R.drawable.ic_delete,
+    @DrawableRes bottomIcon: Int = android.R.drawable.ic_delete,
+    @ColorRes leftIconColor: Int = android.R.color.white,
+    @ColorRes topIconColor: Int = android.R.color.white,
+    @ColorRes rightIconColor: Int = android.R.color.white,
+    @ColorRes bottomIconColor: Int = android.R.color.white,
+    direction: Int
+) {
+    val left = 1
+    val top = 2
+    val right = 3
+    val bottom = 4
+    val leftRight = 5
+    val topBottom = 6
+
+    val leftDrawable = ContextCompat.getDrawable(context, leftIcon)?.changeColor(context = context, color = leftIconColor)
+    val topDrawable = ContextCompat.getDrawable(context, topIcon)?.changeColor(context = context, color = topIconColor)
+    val rightDrawable = ContextCompat.getDrawable(context, rightIcon)?.changeColor(context = context, color = rightIconColor)
+    val bottomDrawable = ContextCompat.getDrawable(context, bottomIcon)?.changeColor(context = context, color = bottomIconColor)
+
+    if (showTick) {
+        when (direction) {
+            left -> this.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, null, null)
+            top -> this.setCompoundDrawablesWithIntrinsicBounds(null, topDrawable, null, null)
+            right -> this.setCompoundDrawablesWithIntrinsicBounds(null, null, rightDrawable, null)
+            bottom -> this.setCompoundDrawablesWithIntrinsicBounds(null, null, null, bottomDrawable)
+            leftRight -> this.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, rightDrawable, null)
+            topBottom -> this.setCompoundDrawablesWithIntrinsicBounds(null, topDrawable, null, bottomDrawable)
+        }
+    } else this.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+}
+
+fun Drawable.changeColor(
+    context: Context,
+    @ColorRes color: Int
+): Drawable {
+    val unwrappedDrawable = this
+    val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable)
+    DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(context, color))
+    return this
+}
 
 enum class DateType(val value: String) {
     dd_MMM_yyyy(value = "dd MMM yyyy"),

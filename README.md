@@ -1,5 +1,5 @@
 ![alt text](https://github.com/Singularity-Coder/InstaChat/blob/main/assets/logo192.png)
-# Connect Me
+# Ping Me
 Snap, Chat, Meet and Stream in one place.
 
 ## Concept
